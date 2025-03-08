@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Botão Móvel</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: black;
+      color: white;
+      overflow: hidden;
+      position: relative;
+      flex-direction: column; /* Para empilhar os elementos na tela */
+    }
+
+    #message {
+      margin-top: 20px;
+      font-size: 20px;
+      text-align: center;
+    }
+
+    .button-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #moveButton {
+      padding: 15px 30px;
+      background-color: red;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      position: absolute;
+      transition: 0.3s ease;
+    }
+
+    /* Estilo para a mensagem final */
+    #finalMessage {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 40px;
+      font-weight: bold;
+      display: none; /* Inicialmente escondido */
+      text-align: center;
+    }
+
+    /* Estilo para a mensagem adicional */
+    #additionalMessage {
+      position: absolute;
+      top: 60%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+      font-weight: normal;
+      color: #f0f0f0;
+      display: none; /* Inicialmente escondido */
+      text-align: center;
+    }
+
+    /* Estilo para o botão "Olhe isso" em vermelho */
+    #lookButton {
+      position: absolute;
+      top: 70%;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      background-color: red; /* Cor vermelha */
+      color: white;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: none; /* Inicialmente escondido */
+    }
+
+    #lookButton:hover {
+      background-color: #d9534f; /* Cor vermelha mais escura quando passa o mouse */
+    }
+
+    /* Estilo para a imagem */
+    #image {
+      display: none; /* Inicialmente escondido */
+      position: absolute;
+      top: 10%; /* Colocando a imagem no topo da tela */
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 100%;
+      max-height: 300px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="button-container">
+    <button id="moveButton">Clique em mim</button>
+  </div>
+  <div id="message"></div>
+  <div id="finalMessage">❤️ Eu te amo! ❤️</div>
+  <div id="additionalMessage">Você é muito especial na minha vida, obrigado por cuidar de mim ❤️</div>
+  <button id="lookButton">Olhe isso</button>
+  <img id="image" src="img/Foto.jpg" alt="Imagem Especial">
+
+  <script>
+    let clickCount = 0;
+
+    const moveButton = document.getElementById('moveButton');
+    const message = document.getElementById('message');
+    const finalMessage = document.getElementById('finalMessage');
+    const additionalMessage = document.getElementById('additionalMessage');
+    const lookButton = document.getElementById('lookButton');
+    const image = document.getElementById('image');
+    const buttonContainer = document.querySelector('.button-container');
+
+    // Função para mover o botão
+    function moveButtonPosition() {
+      clickCount++;
+      
+      // Calcula uma nova posição aleatória para o botão
+      const randomX = Math.floor(Math.random() * (buttonContainer.offsetWidth - moveButton.offsetWidth));
+      const randomY = Math.floor(Math.random() * (buttonContainer.offsetHeight - moveButton.offsetHeight));
+
+      moveButton.style.left = `${randomX}px`;
+      moveButton.style.top = `${randomY}px`;
+
+      // Exibe uma mensagem conforme o número de cliques
+      if (clickCount < 4) {
+        message.innerText = `Tente novamente! Você clicou ${clickCount} vez(es).`;
+      } else {
+        message.innerText = "Você conseguiu! Agora, veja o que apareceu:";
+
+        setTimeout(() => {
+          moveButton.style.display = "none"; // Esconde o botão
+          setTimeout(() => {
+            finalMessage.style.display = "block"; // Exibe a mensagem "Eu te amo!" no fundo da tela
+            additionalMessage.style.display = "block"; // Exibe a mensagem adicional abaixo
+            lookButton.style.display = "block"; // Exibe o botão "Olhe isso"
+          }, 300);
+        }, 1000);
+      }
+    }
+
+    // Função para exibir a imagem
+    function showImage() {
+      image.style.display = "block"; // Exibe a imagem
+    }
+
+    moveButton.addEventListener('click', moveButtonPosition);
+    lookButton.addEventListener('click', showImage);
+  </script>
+
+</body>
+</html>
